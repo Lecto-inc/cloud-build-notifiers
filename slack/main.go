@@ -121,11 +121,9 @@ func (s *slackNotifier) writeMessage(build *cbpb.Build) (*slack.WebhookMessage, 
 		}, {
 			Title: "branch",
 			Value: branchName,
-			Short: true,
 		}, {
 			Title: "tag",
 			Value: tagName,
-			Short: true,
 		}, {
 			Title: "commit",
 			Value: commitSha,

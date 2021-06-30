@@ -37,15 +37,12 @@ func TestWriteMessage(t *testing.T) {
 			}, {
 				Title: "branch",
 				Value: "",
-				Short: true,
 			}, {
 				Title: "tag",
 				Value: "",
-				Short: true,
 			}, {
 				Title: "commit",
 				Value: "",
-				Short: false,
 			}},
 		}},
 	}
