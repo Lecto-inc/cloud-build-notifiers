@@ -24,12 +24,28 @@ func TestWriteMessage(t *testing.T) {
 
 	want := &slack.WebhookMessage{
 		Attachments: []slack.Attachment{{
-			Text:  "Cloud Build (my-project-id, some-build-id): SUCCESS",
+			Title: "Cloud Build (my-project-id, )",
 			Color: "good",
 			Actions: []slack.AttachmentAction{{
 				Text: "View Logs",
 				Type: "button",
 				URL:  "https://some.example.com/log/url?foo=bar&utm_campaign=google-cloud-build-notifiers&utm_medium=chat&utm_source=google-cloud-build",
+			}},
+			Fields: []slack.AttachmentField{{
+				Title: "status",
+				Value: "SUCCESS",
+			}, {
+				Title: "branch",
+				Value: "",
+				Short: true,
+			}, {
+				Title: "tag",
+				Value: "",
+				Short: true,
+			}, {
+				Title: "commit",
+				Value: "",
+				Short: false,
 			}},
 		}},
 	}

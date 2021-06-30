@@ -79,12 +79,12 @@ func (s *slackNotifier) SendNotification(ctx context.Context, build *cbpb.Build)
 }
 
 func (s *slackNotifier) writeMessage(build *cbpb.Build) (*slack.WebhookMessage, error) {
-	txt := fmt.Sprintf(
-		"Cloud Build (%s, %s): %s",
-		build.ProjectId,
-		build.Id,
-		build.Status,
-	)
+	substitutions := build.GetSubstitutions()
+
+	repoName := substitutions["REPO_NAME"]
+	branchName := substitutions["BRANCH_NAME"]
+	tagName := substitutions["TAG_NAME"]
+	commitSha := substitutions["COMMIT_SHA"]
 
 	var clr string
 	switch build.Status {
@@ -101,15 +101,36 @@ func (s *slackNotifier) writeMessage(build *cbpb.Build) (*slack.WebhookMessage, 
 		return nil, fmt.Errorf("failed to add UTM params: %w", err)
 	}
 
-	atch := slack.Attachment{
-		Text:  txt,
+	txt := fmt.Sprintf(
+		"Cloud Build (%s, %s)",
+		build.ProjectId,
+		repoName,
+	)
+
+	attachment := slack.Attachment{
+		Title: txt,
 		Color: clr,
 		Actions: []slack.AttachmentAction{{
 			Text: "View Logs",
 			Type: "button",
 			URL:  logURL,
 		}},
+		Fields: []slack.AttachmentField{{
+			Title: "status",
+			Value: fmt.Sprintf("%s", build.Status),
+		}, {
+			Title: "branch",
+			Value: branchName,
+			Short: true,
+		}, {
+			Title: "tag",
+			Value: tagName,
+			Short: true,
+		}, {
+			Title: "commit",
+			Value: commitSha,
+		}},
 	}
 
-	return &slack.WebhookMessage{Attachments: []slack.Attachment{atch}}, nil
+	return &slack.WebhookMessage{Attachments: []slack.Attachment{attachment}}, nil
 }
