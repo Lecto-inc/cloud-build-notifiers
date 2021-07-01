@@ -17,6 +17,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/GoogleCloudPlatform/cloud-build-notifiers/lib/notifiers"
 	log "github.com/golang/glog"
@@ -85,7 +86,7 @@ func (s *slackNotifier) writeMessage(build *cbpb.Build) (*slack.WebhookMessage, 
 	branchName := substitutions["BRANCH_NAME"]
 	tagName := substitutions["TAG_NAME"]
 	commitSha := substitutions["SHORT_SHA"]
-	duration := build.FinishTime.AsTime().Sub(build.StartTime.AsTime())
+	duration := build.FinishTime.AsTime().Sub(build.StartTime.AsTime()).Truncate(time.Millisecond)
 
 	var clr string
 	switch build.Status {
