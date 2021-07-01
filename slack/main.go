@@ -128,9 +128,11 @@ func (s *slackNotifier) writeMessage(build *cbpb.Build) (*slack.WebhookMessage, 
 		}, {
 			Title: "commit",
 			Value: commitSha,
+			Short: true,
 		}, {
 			Title: "duration",
 			Value: fmt.Sprintf("%s", duration),
+			Short: true,
 		}},
 	}
 
