@@ -84,7 +84,7 @@ func (s *slackNotifier) writeMessage(build *cbpb.Build) (*slack.WebhookMessage, 
 	repoName := substitutions["REPO_NAME"]
 	branchName := substitutions["BRANCH_NAME"]
 	tagName := substitutions["TAG_NAME"]
-	commitSha := substitutions["COMMIT_SHA"]
+	commitSha := substitutions["SHORT_SHA"]
 
 	var clr string
 	switch build.Status {
