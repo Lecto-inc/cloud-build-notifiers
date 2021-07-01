@@ -43,6 +43,9 @@ func TestWriteMessage(t *testing.T) {
 			}, {
 				Title: "commit",
 				Value: "",
+			}, {
+				Title: "duration",
+				Value: "0s",
 			}},
 		}},
 	}
