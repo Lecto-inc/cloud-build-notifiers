@@ -86,7 +86,7 @@ func (s *slackNotifier) writeMessage(build *cbpb.Build) (*slack.WebhookMessage, 
 	branchName := substitutions["BRANCH_NAME"]
 	tagName := substitutions["TAG_NAME"]
 	commitSha := substitutions["SHORT_SHA"]
-	duration := build.FinishTime.AsTime().Sub(build.StartTime.AsTime()).Truncate(time.Millisecond)
+	duration := build.FinishTime.AsTime().Sub(build.StartTime.AsTime()).Truncate(time.Second)
 
 	var clr string
 	switch build.Status {
